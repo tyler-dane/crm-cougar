@@ -1,13 +1,32 @@
+import { json } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/node";
 import {
   Form,
+  Link,
   Links,
   LiveReload,
   Meta,
+  Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
+import { getContacts } from "./data";
+import appStylesHref from "./app.css";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: appStylesHref },
+];
+
+export const loader = async () => {
+  const contacts = await getContacts();
+  return json({ contacts });
+};
+
 export default function App() {
+  const { contacts } = useLoaderData();
+
   return (
     <html lang="en">
       <head>
@@ -37,13 +56,16 @@ export default function App() {
           <nav>
             <ul>
               <li>
-                <a href={`/contacts/1`}>Your Name</a>
+                <Link to={`/contacts/1`}>Your Name</Link>
               </li>
               <li>
-                <a href={`/contacts/2`}>Your Friend</a>
+                <Link to={`/contacts/2`}>Your Friend</Link>
               </li>
             </ul>
           </nav>
+        </div>
+        <div id="detail">
+          <Outlet />
         </div>
 
         <ScrollRestoration />
