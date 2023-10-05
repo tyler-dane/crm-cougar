@@ -8,6 +8,9 @@ From your terminal:
 
 ```sh
 npm run dev
+# runs on 3000 by default
+# to run on a different port:
+# PORT=3002 npm run dev
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
